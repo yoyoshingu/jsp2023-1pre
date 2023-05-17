@@ -9,6 +9,7 @@
 </head>
 <body>
 <h3>구구단</h3>
+<img class="card-img-top" src="/jsp2023-1/img/box.jpg"> 
 <table>
 <c:forEach var ="i" begin="1" end="9">
 <tr>

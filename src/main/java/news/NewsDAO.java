@@ -30,7 +30,7 @@ public class NewsDAO {
 		Connection conn = open();
 		
 		String sql = "insert INTO news(title, img, date, content)"
-				+ "values(?,?, CURRENT_TIMESTAMP(), ?)";
+				+ "values(?,?, CURRENT_DATE(), ?)";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		
 		try(conn; pstmt){
@@ -52,21 +52,24 @@ public class NewsDAO {
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		
-		try(conn; pstmt; rs){
-			News n = new News();
-			n.setAid(rs.getInt("aid"));
-			n.setTitle(rs.getString("title"));
-			//n.setDate(rs.getString("cdate"));
-			newslist.add(n);
+		try (conn; pstmt; rs) {
+			while (rs.next()) {
+				News n = new News();
+				n.setAid(rs.getInt("aid"));
+				n.setTitle(rs.getString("title"));
+				n.setDate(rs.getString("date"));
+				newslist.add(n);
+			}
 		}
 		return newslist;				
 	}
-	
+
 	public News getNews(int aid) throws SQLException{
 		Connection conn = open();
 		News n = new News();
-		String sql = "select aid, title, img, PARSEDATETIME(date, 'yyyy-MM-dd hh:mm:ss')"
-				+ "as cdate content from news where aid=?";
+//		String sql = "select aid, title, img, PARSEDATETIME(date, 'yyyy-MM-dd hh:mm:ss')"
+//				+ "as cdate content from news where aid=?";
+		String sql = "select * from news where aid=?";
 		
 		PreparedStatement pstmt  = conn.prepareStatement(sql);
 		pstmt.setInt(1,  aid);
@@ -78,7 +81,7 @@ public class NewsDAO {
 			n.setAid(rs.getInt("aid"));
 			n.setTitle(rs.getString("title"));
 			n.setImg(rs.getString("img"));
-			n.setDate(rs.getString("cdate"));
+			n.setDate(rs.getString("date"));
 			n.setContent(rs.getString("content"));
 			pstmt.executeQuery();
 			

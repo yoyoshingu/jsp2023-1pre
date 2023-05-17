@@ -20,7 +20,7 @@ import javax.servlet.http.Part;
  * Servlet implementation class NewsController
  */
 @WebServlet("/ncontrol")
-@MultipartConfig(maxFileSize=102*1024*2, location="c:/dev/newsimg")
+@MultipartConfig(maxFileSize=102*1024*2, location="C:/dev/JavaServer2023-1/jsp2023-1/src/main/webapp/img")
 public class NewsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -66,7 +66,7 @@ public class NewsController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		if(view.startsWith("redicret:/")) {
+		if(view.startsWith("redirect:/")) {
 			String rview = view.substring("redirect:/".length());
 			response.sendRedirect(rview);
 		}else {
@@ -91,12 +91,13 @@ public class NewsController extends HttpServlet {
 			n.setTitle(request.getParameter("title"));
 			n.setDate(request.getParameter("cdate"));
 		
-		n.setImg("/img/"+fileName);
-		dao.addNews(n);
+			n.setImg("/img/"+fileName);
+			dao.addNews(n);
 		}catch(Exception e) {
 			e.printStackTrace();
 			ctx.log("addNews문제");
 			request.setAttribute("error", "뉴스등록에러");		
+			return listNews(request);
 		}
 		return "redirect:/ncontrol?action=listNews";
 	}
@@ -148,7 +149,7 @@ public class NewsController extends HttpServlet {
 		
 		int start = header.indexOf("filename=");
 		fileName = header.substring(start+10, header.length()-1);
-		ctx.log("파일명" + fileName);
+		ctx.log("파일명:" + fileName);
 		return fileName;
 	}
 }
