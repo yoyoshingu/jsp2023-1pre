@@ -20,7 +20,7 @@ import javax.servlet.http.Part;
  * Servlet implementation class NewsController
  */
 @WebServlet("/ncontrol")
-@MultipartConfig(maxFileSize=102*1024*2, location="C:/dev/JavaServer2023-1/jsp2023-1/src/main/webapp/img")
+@MultipartConfig(maxFileSize=102*1024*2, location="C:/Temp/img")
 public class NewsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
